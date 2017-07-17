@@ -1,3 +1,7 @@
+//NO es necesario crear un servidor con express
+//al utilizar BROWSERSYNC se instala express
+//y crea su propio servidor
+
 const gulp = require('gulp');
 const sass = require('gulp-sass');
 const browserify = require('gulp-browserify');
@@ -6,8 +10,8 @@ const concat = require("gulp-concat");
 const browserSync = require('browser-sync').create();
 
 const config = {
-		source: "./src/",
-		dist: "./public",
+	source: "./src/",
+	dist: "./public",
 };
 const paths = {
 	html: "**/*.html",
@@ -48,6 +52,10 @@ gulp.task("img",()=>{
 });
 
 gulp.task("sass-watch",["sass"],(done)=>{
+	//sin BROWSERSYNC 
+	//hay que refrescar el navegador para ver cambios
+	// gulp.watch(ruta ScSS, ['sass'])
+	// en consola se activa con gulp sass-watch
 	browserSync.reload();
 	done();
 });
@@ -62,16 +70,16 @@ gulp.task("html-watch",["mover_html"],(done)=>{
 
 /*
 Cambiamos el nombre de serve -> default
-Al llamarse default bast con correr "gulp" en la terminal
+Al llamarse default basta con correr "gulp" en la terminal
 En lugar de tener que escribir "gulp serve"
 */
 gulp.task("default", ()=>{
 	browserSync.init({
 		server: {
-			baseDir: "./public"
+			baseDir: config.dist
 		}
 	});
-	gulp.watch("./src/assets/scss/**/*.scss", ["sass-watch"] );
+	gulp.watch(config.source + paths.sass, ["sass-watch"] );
 	gulp.watch("./src/assets/js/*.js", ["js-watch"] );
 	gulp.watch("./src/*.html", ["html-watch"] );
 });
