@@ -12,13 +12,15 @@ const config = {
 const paths = {
 	html: "**/*.html",
 	sass: "assets/scss/**/*.scss",
-	mainSass:"assets/scss/main.scss"
+	mainSass:"assets/scss/main.scss",
+	images: "assets/img/*.*"
 };
 
 const sources = {
 	html: config.source + paths.html,
 	sass: config.source + paths.sass,
 	rootSass: config.source + paths.mainSass,
+	img: config.source + paths.images,
 };
 
 gulp.task("mover_html",()=>{
@@ -38,6 +40,11 @@ gulp.task("js", ()=>{
 	gulp.src("./src/assets/js/*.js")
 		.pipe( concat('all.js') )
 		.pipe( gulp.dest( "./public/assets/js" ) );
+});
+
+gulp.task("img",()=>{
+	gulp.src(sources.img)
+		.pipe(gulp.dest(config.dist + "/assets/img"));
 });
 
 gulp.task("sass-watch",["sass"],(done)=>{
